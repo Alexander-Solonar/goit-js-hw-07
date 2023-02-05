@@ -24,5 +24,8 @@ function creategalleryCardItem(items) {
 
 function onGalleryComtainerClick(event) {
   event.preventDefault();
-  console.log(event.target.dataset.source);
+  const linkOriginalImg = event.target.dataset.source;
+  const instance = basicLightbox.create(`
+      <img src="${linkOriginalImg}" width="800" height="600">`);
+  instance.show();
 }
