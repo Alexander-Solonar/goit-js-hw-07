@@ -3,7 +3,7 @@ import { galleryItems } from "./gallery-items.js";
 const cardItem = creategalleryCardItem(galleryItems);
 const galleryContainer = document.querySelector(".gallery");
 galleryContainer.insertAdjacentHTML("afterbegin", cardItem);
-galleryContainer.addEventListener("click", onGalleryComtainerClick);
+galleryContainer.addEventListener("click", onShowOriginalImage);
 
 function creategalleryCardItem(items) {
   return items
@@ -22,10 +22,20 @@ function creategalleryCardItem(items) {
     .join("");
 }
 
-function onGalleryComtainerClick(event) {
+let instance;
+function onShowOriginalImage(event) {
   event.preventDefault();
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
   const linkOriginalImg = event.target.dataset.source;
-  const instance = basicLightbox.create(`
+  instance = basicLightbox.create(`
       <img src="${linkOriginalImg}" width="800" height="600">`);
-  instance.show();
+  instance.show(() => window.addEventListener("keydown", onEscKeyPress));
+}
+
+function onEscKeyPress(evt) {
+  if (evt.code === "Escape") {
+    instance.close(() => window.removeEventListener("keydown", onEscKeyPress));
+  }
 }
