@@ -32,14 +32,11 @@ function onShowOriginalImage(event) {
   instance = basicLightbox.create(`
       <img src="${linkOriginalImg}" width="800" height="600">`);
   instance.show(() => window.addEventListener("keydown", onEscKeyPress));
-  console.log(
-    document.body.lastElementChild.classList.contains("basicLightbox")
-  );
 }
 
 function onEscKeyPress(evt) {
   if (evt.code === "Escape") {
-    instance.close(() => {});
+    instance.close();
   }
   if (!document.body.lastElementChild.classList.contains("basicLightbox")) {
     window.removeEventListener("keydown", onEscKeyPress);
