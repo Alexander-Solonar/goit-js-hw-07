@@ -1,7 +1,7 @@
 import { galleryItems } from "./gallery-items.js";
 
-const cardItem = creategalleryCardItem(galleryItems);
 const galleryContainer = document.querySelector(".gallery");
+const cardItem = creategalleryCardItem(galleryItems);
 galleryContainer.insertAdjacentHTML("afterbegin", cardItem);
 galleryContainer.addEventListener("click", onShowOriginalImage);
 
@@ -34,12 +34,11 @@ function onShowOriginalImage(event) {
   instance.show(() => window.addEventListener("keydown", onEscKeyPress));
 }
 
-function onEscKeyPress(evt) {
-  if (evt.code === "Escape") {
-    instance.close();
-  }
-  if (!document.body.lastElementChild.classList.contains("basicLightbox")) {
+function onEscKeyPress(event) {
+  if (!instance.visible()) {
     window.removeEventListener("keydown", onEscKeyPress);
   }
-  console.log(evt.code);
+  if (event.code === "Escape") {
+    instance.close();
+  }
 }
