@@ -1,8 +1,7 @@
 import { galleryItems } from "./gallery-items.js";
 
 const galleryContainer = document.querySelector(".gallery");
-const cardItem = creategalleryCardItem(galleryItems);
-galleryContainer.insertAdjacentHTML("afterbegin", cardItem);
+galleryContainer.innerHTML = creategalleryCardItem(galleryItems);
 galleryContainer.addEventListener("click", onShowOriginalImage);
 
 function creategalleryCardItem(items) {
@@ -22,23 +21,28 @@ function creategalleryCardItem(items) {
     .join("");
 }
 
-let instance;
 function onShowOriginalImage(event) {
   event.preventDefault();
   if (event.target.nodeName !== "IMG") {
     return;
   }
   const linkOriginalImg = event.target.dataset.source;
+  basicLightboxShowImg(linkOriginalImg);
+}
+
+let instance;
+function basicLightboxShowImg(url) {
   instance = basicLightbox.create(`
-      <img src="${linkOriginalImg}" width="800" height="600">`);
+      <img src="${url}" width="800" height="600">`);
   instance.show(() => window.addEventListener("keydown", onEscKeyPress));
 }
 
 function onEscKeyPress(event) {
-  if (!instance.visible()) {
-    window.removeEventListener("keydown", onEscKeyPress);
-  }
   if (event.code === "Escape") {
     instance.close();
   }
+  if (!instance.visible()) {
+    window.removeEventListener("keydown", onEscKeyPress);
+  }
+  console.log(event.code);
 }
