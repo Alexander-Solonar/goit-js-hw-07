@@ -3,6 +3,7 @@ import { galleryItems } from "./gallery-items.js";
 const galleryContainer = document.querySelector(".gallery");
 galleryContainer.innerHTML = creategalleryCardItem(galleryItems);
 galleryContainer.addEventListener("click", onShowOriginalImage);
+let instance;
 
 function creategalleryCardItem(items) {
   return items
@@ -27,22 +28,23 @@ function onShowOriginalImage(event) {
     return;
   }
   const linkOriginalImg = event.target.dataset.source;
-  basicLightboxShowImg(linkOriginalImg);
+  onLightboxCreateModal(linkOriginalImg);
 }
 
-let instance;
-function basicLightboxShowImg(url) {
+function onLightboxCreateModal(url) {
   instance = basicLightbox.create(`
       <img src="${url}" width="800" height="600">`);
-  instance.show(() => window.addEventListener("keydown", onEscKeyPress));
+  instance.show(() => {
+    window.addEventListener("keydown", onEscKeyPress);
+  });
 }
 
 function onEscKeyPress(event) {
+  if (!instance.visible()) {
+    window.removeEventListener("keydown", onEscKeyPress);
+    return;
+  }
   if (event.code === "Escape") {
     instance.close();
   }
-  if (!instance.visible()) {
-    window.removeEventListener("keydown", onEscKeyPress);
-  }
-  console.log(event.code);
 }

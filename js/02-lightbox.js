@@ -4,12 +4,12 @@ import { galleryItems } from "./gallery-items.js";
 const galleryContainer = document.querySelector(".gallery");
 
 galleryContainer.innerHTML = galleryItems.reduce(
-  (html, { original, preview }) => {
+  (html, { original, preview, description }) => {
     return (
       html +
       `<li class="gallery__item">
         <a class="gallery__item" href="${original}">
-           <img class="gallery__image" src="${preview}" alt="Image description" />
+           <img class="gallery__image" src="${preview}" alt="${description}" />
         </a>
     </li>`
     );
@@ -23,5 +23,9 @@ function onShowOriginalImage(evt) {
   if (evt.target.nodeName !== "IMG") {
     return;
   }
-  console.log(evt.target.dataset.source);
 }
+
+new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
