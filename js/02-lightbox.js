@@ -13,19 +13,15 @@ galleryContainer.innerHTML = galleryItems.reduce(
         </a>
     </li>`
     );
-  },
-  ""
+  },""
 );
 
-galleryContainer.addEventListener("click", onShowOriginalImage);
-function onShowOriginalImage(evt) {
+galleryContainer.addEventListener("click", onTragetImgClick);
+function onTragetImgClick(evt) {
   evt.preventDefault();
-  if (evt.target.nodeName !== "IMG") {
-    return;
-  }
-}
 
-new SimpleLightbox(".gallery a", {
-  captionsData: "alt",
-  captionDelay: 250,
-});
+  new SimpleLightbox(".gallery a", {
+    captionsData: "alt",
+    captionDelay: 250,
+  });
+}

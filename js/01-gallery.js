@@ -1,11 +1,11 @@
 import { galleryItems } from "./gallery-items.js";
 
 const galleryContainer = document.querySelector(".gallery");
-galleryContainer.innerHTML = creategalleryCardItem(galleryItems);
-galleryContainer.addEventListener("click", onShowOriginalImage);
+galleryContainer.innerHTML = createGalleryMarkup(galleryItems);
+galleryContainer.addEventListener("click", onTragetImgClick);
 let instance;
 
-function creategalleryCardItem(items) {
+function createGalleryMarkup(items) {
   return items
     .map(({ preview, original, description }) => {
       return `<div class="gallery__item">
@@ -22,16 +22,16 @@ function creategalleryCardItem(items) {
     .join("");
 }
 
-function onShowOriginalImage(event) {
+function onTragetImgClick(event) {
   event.preventDefault();
   if (event.target.nodeName !== "IMG") {
     return;
   }
   const linkOriginalImg = event.target.dataset.source;
-  onLightboxCreateModal(linkOriginalImg);
+  createLightboxModal(linkOriginalImg);
 }
 
-function onLightboxCreateModal(url) {
+function createLightboxModal(url) {
   instance = basicLightbox.create(`
       <img src="${url}" width="800" height="600">`);
   instance.show(() => {
