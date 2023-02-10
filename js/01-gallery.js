@@ -3,7 +3,6 @@ import { galleryItems } from "./gallery-items.js";
 const galleryContainer = document.querySelector(".gallery");
 galleryContainer.innerHTML = createGalleryMarkup(galleryItems);
 galleryContainer.addEventListener("click", onTragetImgClick);
-let instance;
 
 function createGalleryMarkup(items) {
   return items
@@ -22,29 +21,28 @@ function createGalleryMarkup(items) {
     .join("");
 }
 
-function onTragetImgClick(event) {
-  event.preventDefault();
-  if (event.target.nodeName !== "IMG") {
+function onTragetImgClick(evt) {
+  evt.preventDefault();
+  if (evt.target.nodeName !== "IMG") {
     return;
   }
-  const linkOriginalImg = event.target.dataset.source;
-  createLightboxModal(linkOriginalImg);
+  const urlOriginalImg = evt.target.dataset.source;
+
+  controlLightboxModal(urlOriginalImg);
 }
 
-function createLightboxModal(url) {
-  instance = basicLightbox.create(`
-      <img src="${url}" width="800" height="600">`);
-  instance.show(() => {
-    window.addEventListener("keydown", onEscKeyPress);
+function controlLightboxModal(url) {
+  const html = `<img src="${url}" width="800" height="600">`;
+  const instance = basicLightbox.create(html, {
+    onShow: () => document.addEventListener("keydown", onEscKeyPress),
+    onClose: () => document.removeEventListener("keydown", onEscKeyPress),
   });
-}
 
-function onEscKeyPress(event) {
-  if (!instance.visible()) {
-    window.removeEventListener("keydown", onEscKeyPress);
-    return;
-  }
-  if (event.code === "Escape") {
-    instance.close();
+  instance.show();
+
+  function onEscKeyPress(event) {
+    if (event.code === "Escape") {
+      instance.close();
+    }
   }
 }

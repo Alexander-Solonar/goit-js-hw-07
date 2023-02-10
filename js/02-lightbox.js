@@ -13,15 +13,11 @@ galleryContainer.innerHTML = galleryItems.reduce(
         </a>
     </li>`
     );
-  },""
+  },
+  ""
 );
 
-galleryContainer.addEventListener("click", onTragetImgClick);
-function onTragetImgClick(evt) {
-  evt.preventDefault();
-
-  new SimpleLightbox(".gallery a", {
-    captionsData: "alt",
-    captionDelay: 250,
-  });
-}
+new SimpleLightbox(".gallery a", {
+  captionsData: "alt",
+  captionDelay: 250,
+});
